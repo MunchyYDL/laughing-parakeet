@@ -1,0 +1,36 @@
+.menu {
+  width: max-content;
+  user-select: none;
+  font-size: large;
+  cursor: pointer;
+}
+
+.menu i {
+  font-style: normal;
+  font-weight: bolder;
+}
+
+.menu ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.menu ul > ul {
+  display: none;
+  padding-left: 10px;
+}
+
+.menu ul.expanded {
+  display: block;
+}
+
+.menu li {
+  padding: 5px 10px;
+  background: linear-gradient(#858484, #4f4f50);
+}
+
+.menu li:hover {
+  color: yellow;
+  transition: color 200ms ease-out;
+}
