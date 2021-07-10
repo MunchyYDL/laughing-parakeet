@@ -27,27 +27,34 @@ interface MenuItemProps {
 }
 
 const MenuItem: FunctionComponent<MenuItemProps> = ({ node }) => {
+  const [expanded, setExpanded] = useState(false);
+
   let hasChildren = node.children !== undefined;
 
   let children = node.children
     ? node.children.map((item, index) => <MenuItem key={index} node={item} />)
     : null;
 
-  const [expanded, setExpanded] = useState(false);
+  let arrow = hasChildren && expanded ? <i>&or;</i> : <i>&gt;</i>;
 
-  let arrow = hasChildren && expanded ? <i>&and;</i> : <i>&or;</i>;
+  const clickHandler = () => {
+    console.log(node.name);
+    if (hasChildren) {
+      setExpanded(!expanded);
+    }
+  }
 
   return (
     <>
       {hasChildren ? (
         <>
-          <li className={styles.parent} onClick={() => setExpanded(!expanded)}>
+          <li className={styles.parent} onClick={clickHandler}>
             {arrow} {node.name}
           </li>
           <ul className={expanded ? styles.expanded : undefined}>{children}</ul>
         </>
       ) : (
-        <li>{node.name}</li>
+        <li onClick={clickHandler}>{node.name}</li>
       )}
     </>
   );
