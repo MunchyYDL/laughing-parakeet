@@ -1,4 +1,4 @@
-import { FunctionComponent, useState } from "react";
+import { FC, useState } from "react";
 
 import data from "./data.json";
 import styles from "./Menu.module.css";
@@ -26,7 +26,7 @@ interface MenuItemProps {
   node: MenuNode;
 }
 
-const MenuItem: FunctionComponent<MenuItemProps> = ({ node }) => {
+const MenuItem: FC<MenuItemProps> = ({ node }) => {
   const [expanded, setExpanded] = useState(false);
 
   let hasChildren = node.children !== undefined;
@@ -54,7 +54,7 @@ const MenuItem: FunctionComponent<MenuItemProps> = ({ node }) => {
           <ul className={expanded ? styles.expanded : undefined}>{children}</ul>
         </>
       ) : (
-        <li onClick={clickHandler}>{node.name}</li>
+        <li className={styles.leaf} onClick={clickHandler}>{node.name}</li>
       )}
     </>
   );
