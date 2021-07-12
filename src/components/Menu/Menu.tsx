@@ -1,20 +1,22 @@
-import { FC, useState } from "react";
+import { useState } from "react";
 
 import data from "./data.json";
 import styles from "./Menu.module.css";
 
 interface MenuNode {
-  name: string;
-  children?: Array<MenuNode>;
+  name: String
+  children?: Array<MenuNode>
 }
 
 const Menu = () => {
+  const [selected, setSelected] = useState('');
+
   return (
     <>
       <div className={styles.menu}>
         <ul>
           {data.map((item, index) => (
-            <MenuItem key={index} node={item} />
+            <MenuItem key={index} node={item} selectedNode={selected} selectNode={setSelected} />
           ))}
         </ul>
       </div>
@@ -23,39 +25,43 @@ const Menu = () => {
 };
 
 interface MenuItemProps {
-  node: MenuNode;
+  node: MenuNode
+  selectedNode: String
+  selectNode: any
 }
 
-const MenuItem: FC<MenuItemProps> = ({ node }) => {
+const MenuItem = ({ node, selectedNode, selectNode }: MenuItemProps) => {
   const [expanded, setExpanded] = useState(false);
 
   let hasChildren = node.children !== undefined;
 
   let children = node.children
-    ? node.children.map((item, index) => <MenuItem key={index} node={item} />)
+    ? node.children.map((item, index) => <MenuItem key={index} node={item} selectedNode={selectedNode} selectNode={selectNode} />)
     : null;
-
-  let arrow = hasChildren && expanded ? <i>&or;</i> : <i>&gt;</i>;
 
   const clickHandler = () => {
     console.log(node.name);
+    selectNode(node.name);
+  }
+
+  const toggleExpand = () => {
     if (hasChildren) {
       setExpanded(!expanded);
     }
   }
 
+  // MenuItem parts
+  let arrowState = expanded ? <>&#x276e;</> : <>&#x276f;</>;
+  let arrow = hasChildren ? <i onClick={toggleExpand}>{arrowState}</i> : null;
+  let subMenu = hasChildren ? <ul className={expanded ? styles.expanded : undefined}>{children}</ul> : null;
+
   return (
     <>
-      {hasChildren ? (
-        <>
-          <li className={styles.parent} onClick={clickHandler}>
-            {arrow} {node.name}
-          </li>
-          <ul className={expanded ? styles.expanded : undefined}>{children}</ul>
-        </>
-      ) : (
-        <li className={styles.leaf} onClick={clickHandler}>{node.name}</li>
-      )}
+      <li>
+        {arrow}
+        <span className={selectedNode === node.name ? styles.selected : ''} onClick={clickHandler}>{node.name}</span>
+      </li>
+      {subMenu}
     </>
   );
 };

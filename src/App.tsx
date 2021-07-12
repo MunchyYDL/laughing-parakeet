@@ -1,6 +1,5 @@
 import "./App.css";
 import Menu from "./components/Menu/Menu";
-// import LearnReact from "./components/LearnReact/LearnReact";
 
 function App() {
   return (
@@ -13,7 +12,6 @@ function App() {
       </aside>
       <main >
         Nothing Selected...
-        {/* <LearnReact /> */}
       </main>
     </div>
   );

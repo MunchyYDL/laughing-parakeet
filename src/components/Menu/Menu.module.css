@@ -1,27 +1,29 @@
 .menu {
-  width: max-content;
+  width: 100%;
   user-select: none;
-  font-size: large;
+  font-size: .7em;
   cursor: pointer;
-  overflow-y: auto;
+  color: #cecece;
 }
 
 .menu i {
+  font-size: .8em;
   font-style: normal;
-  font-weight: bolder;
+  position: absolute;
+  top: 6px;
+  left: 10px;
 }
 
 .menu ul {
-  font-size: 10pt;
   margin: 0;
   padding: 0;
   list-style: none;
+  width: 100%;
 }
 
 .menu ul > ul {
   display: none;
-  margin-left: 15px;
-  padding-left: 10px;
+  padding-left: 15px;
 }
 
 .menu ul.expanded {
@@ -29,15 +31,24 @@
 }
 
 .menu li {
-  padding: 5px 10px;
-  /* background: linear-gradient(#858484, #4f4f50); */
+  position: relative;
+  padding: 3px 10px;
+  width: 100%;
 }
 
-.menu li.leaf {
-  padding-left: 10px;
+.menu span:hover {
+  color: rgb(252, 236, 95);
+  color: var(--highlight);
+  transition: color 300ms ease-out;
 }
 
-.menu li:hover {
-  color: yellow;
-  transition: color 200ms ease-out;
+.menu li span.selected {
+  color: palegreen;
+}
+
+.menu li span {
+  position: relative;
+  left: 15px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
