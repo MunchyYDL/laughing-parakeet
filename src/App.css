@@ -1,7 +1,7 @@
 /* Grid-system */
 
 :root {
-  --header-height: clamp(10vw, 1vw, 5vw);
+  --header-height: 100px;
   --highlight: #efbb35;
 }
 

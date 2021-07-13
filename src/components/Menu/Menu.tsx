@@ -1,23 +1,57 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-import data from "./data.json";
 import styles from "./Menu.module.css";
 
 interface MenuNode {
-  name: String
-  children?: Array<MenuNode>
+  name: string
+  children?: MenuNode[]
+}
+
+interface AppState {
+  loading: boolean
+  menuNodes: MenuNode[]
 }
 
 const Menu = () => {
-  const [selected, setSelected] = useState('');
+  const [selectedNode, setSelected] = useState('');
+
+  const initialState: AppState = {
+    loading: false,
+    menuNodes: []
+  };
+
+  const [appState, setAppState] = useState(initialState);
+
+  useEffect(() => {
+
+    console.log('Effect!');
+    setAppState({ ...appState, loading: true });
+
+    const url = `https://run.mocky.io/v3/fd5940a6-2fc0-416f-8f72-ed1486508f68`;
+    // Delete-link: https://designer.mocky.io/manage/delete/fd5940a6-2fc0-416f-8f72-ed1486508f68/zrVK6KlBWffp6eTshFL6s31YIteVmYVXYaqi
+
+    fetch(url)
+      .then(value => wait(2000, value))
+      .then((res) => res.json())
+      .then((nodes: MenuNode[]) => {
+        setAppState({ ...appState, loading: false, menuNodes: nodes });
+      });
+
+  }, []);
+
+  function wait<T>(ms: number, value: T) {
+    return new Promise<T>((resolve) => setTimeout(resolve, ms, value));
+  }
 
   return (
     <>
       <div className={styles.menu}>
         <ul>
-          {data.map((item, index) => (
-            <MenuItem key={index} node={item} selectedNode={selected} selectNode={setSelected} />
-          ))}
+          {appState.loading || appState.menuNodes === null
+            ? <li>Loading...</li>
+            : appState.menuNodes.map((item, index) => (
+              <MenuItem key={index} node={item} selectedNode={selectedNode} selectNode={setSelected} />
+            ))}
         </ul>
       </div>
     </>
